@@ -12,6 +12,16 @@ function addEntry(stringValue)
 {
     const selectedSection = document.getElementById(stringValue);
 
-    selectedSection.innerHTML += "<p>New entry test</p>";
+    selectedSection.innerHTML += `
+    <div class="newEntry">
+    <label for="nameInput">Name:</label>
+    <input type="text" id="nameInput" required/>
+    
+    <label for="calInput">Calories:</label>
+    <input type="number" min ="0" id="calInput" required/>
+    </div>
+    `;
+
+    
 
 }

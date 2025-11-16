@@ -40,3 +40,9 @@ button {
   display: block;
   margin: 10px 0;
 }
+
+.newEntry{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
