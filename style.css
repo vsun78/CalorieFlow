@@ -1,0 +1,29 @@
+:root{
+    --light-grey: #dad4d4;
+    --light-blue: #ADD8E6;
+}
+
+h1{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 2.5rem;
+
+
+}
+
+body{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 18px;
+    background-color: var(--light-blue);
+}
+
+.container{
+    background-color: var(--light-grey);
+    max-width: 800px;
+    width: 90%;
+}
+
+h1,.container{
+    margin: 20px auto;
+}
