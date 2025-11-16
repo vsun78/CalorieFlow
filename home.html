@@ -20,39 +20,39 @@
                     <input type="number" placeholder="What's your caloric budget?" min = "0" id="budgetInput" required/>
                 </fieldset>
 
-                <fieldset id="breakfast">
+                <fieldset id="fs-breakfast">
                     <legend>Breakfast</legend>
-                    <section></section> <!-- show results here later -->
+                    <section id = "breakfast"></section> <!-- show results here later -->
                 </fieldset>
 
-                <fieldset id="lunch">
+                <fieldset id="fs-lunch">
                     <legend>Lunch</legend>
-                    <section></section> <!-- show results here later -->
+                    <section id = "lunch"></section> <!-- show results here later -->
                 </fieldset>
 
-                <fieldset id="dinner">
+                <fieldset id="fs-dinner">
                     <legend>Dinner</legend>
-                    <section></section> <!-- show results here later -->
+                    <section id = "dinner"></section> <!-- show results here later -->
                 </fieldset>
 
-                <fieldset id="snacks">
+                <fieldset id="fs-snacks">
                     <legend>Snacks</legend>
-                    <section></section> <!-- show results here later -->
+                    <section id = "snacks"></section> <!-- show results here later -->
                 </fieldset>
 
-                <fieldset id="exercise">
+                <fieldset id="fs-exercise">
                     <legend>Exercise</legend>
-                    <section></section> <!-- show results here later -->
+                    <section id = "exercise"></section> <!-- show results here later -->
                 </fieldset>
 
                 <section class = "entry-section">
                     <label for="entry-dropdown">Add food or exercise:</label>
-                    <select>
-                        <option>Breakfast</option>
-                        <option>Lunch</option>
-                        <option>Dinner</option>
-                        <option>Snacks</option>
-                        <option>Breakfast</option>
+                    <select id = "selectList">
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="snacks">Snacks</option>
+                        <option value="exercise">Exercise</option>
                     </select>
                     <br>
                     <button type="button" id="entry-button">Add entry</button>
@@ -70,6 +70,6 @@
 
 
     </main>
-    
+    <script src="./script.js"></script>
 </body>
 </html>
