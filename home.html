@@ -13,10 +13,10 @@
         
         <!-- div that contains all the content -->
         <div class = "container">
-            <form>
+            <form id="calorie-form">
                 <fieldset id="budget">
                     <!-- label for accessibility and best practice -->
-                    <label for ="budget">Budget</label>
+                    <label for ="budgetInput">Budget</label>
                     <input type="number" placeholder="What's your caloric budget?" min = "0" id="budgetInput" required/>
                 </fieldset>
 
@@ -45,7 +45,7 @@
                     <section></section> <!-- show results here later -->
                 </fieldset>
 
-                <section>
+                <section class = "entry-section">
                     <label for="entry-dropdown">Add food or exercise:</label>
                     <select>
                         <option>Breakfast</option>
@@ -54,12 +54,14 @@
                         <option>Snacks</option>
                         <option>Breakfast</option>
                     </select>
+                    <br>
                     <button type="button" id="entry-button">Add entry</button>
-
-                </br>
-                <button type="submit" id="calculate-button">Calculate remaining calories</button>
-                </br>
-                <button type="reset" id="clear-button">Clear entries</button>
+                
+                </section>
+                
+                <section class="form-actions">
+                    <button type="submit" id="calculate-button">Calculate remaining calories</button>
+                    <button type="reset" id="clear-button">Clear entries</button>
                 </section>
 
 
