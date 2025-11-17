@@ -46,3 +46,18 @@ button {
     gap: 10px;
     margin-bottom: 8px;
 }
+
+#fs-remaining h2{
+    color: green;
+}
+
+#fs-excess h2{
+    color: red;
+}
+
+#output{
+    max-width: 800px;
+    width: 90%;
+    margin: 20px auto;
+    text-align: center;
+}
