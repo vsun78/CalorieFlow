@@ -13,6 +13,7 @@ function addEntry(stringValue)
 {
     const selectedSection = document.getElementById(stringValue);
 
+    /*
     selectedSection.innerHTML += `
     <div class="newEntry">
     <label for="nameInput">Name:</label>
@@ -22,6 +23,20 @@ function addEntry(stringValue)
     <input type="number" min ="0" id="calInput" required/>
     </div>
     `;
+    */
+
+    // use insertAdjacentHTML instead of innerHTML so that entries are not deleted
+    // when new ones are added
+    selectedSection.insertAdjacentHTML("beforeend", `
+        <div class="newEntry">
+        <label for="nameInput">Name:</label>
+        <input type="text" id="nameInput" required/>
+
+        <label for="calInput">Calories:</label>
+        <input type="number" min ="0" id="calInput" required/>
+        </div>
+    `);
+
 }
 
 calculateButton.addEventListener("click",calculateCalories);
@@ -82,5 +97,25 @@ function output(calRemaining)
     
 }
 
-// clear output as well
-clearButton.addEventListener("click", () => outputSection.innerHTML = ``);
+// clear button function (reset button doesnt clear entries)
+clearButton.addEventListener("click", clearAll);
+
+function clearAll()
+{
+    budget.value = ""; // clear the budget input
+
+    // list of section ids to clear using innerHTML
+    const sections = ["breakfast", "lunch", "dinner", "snacks", "exercise"];
+
+    for(const id of sections)
+    {
+        const section = document.getElementById(id);
+        if(section)
+        {
+            section.innerHTML = "";
+        }
+    }
+
+    outputSection.innerHTML = "";
+    
+}
