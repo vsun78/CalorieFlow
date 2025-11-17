@@ -13,20 +13,7 @@ function addEntry(stringValue)
 {
     const selectedSection = document.getElementById(stringValue);
 
-    /*
-    selectedSection.innerHTML += `
-    <div class="newEntry">
-    <label for="nameInput">Name:</label>
-    <input type="text" id="nameInput" required/>
-    
-    <label for="calInput">Calories:</label>
-    <input type="number" min ="0" id="calInput" required/>
-    </div>
-    `;
-    */
 
-    // use insertAdjacentHTML instead of innerHTML so that entries are not deleted
-    // when new ones are added
     selectedSection.insertAdjacentHTML("beforeend", `
         <div class="newEntry">
         <label for="nameInput">Name:</label>
@@ -56,6 +43,11 @@ function calculateCalories(e){
     const snacksTotalCalories = getCalories(snacksNumberInputs);
     const exerciseTotalCalories = getCalories(exerciseNumberInputs);
 
+    if(isValidInput(budget.value))
+    {   
+        alert("Enter a valid budget please!")
+        return;
+    }
     // remaining calories calculation
     const remainingCalories = Number(budget.value) + exerciseTotalCalories - breakfastTotalCalories - 
     lunchTotalCalories - dinnerTotalCalories - snacksTotalCalories;
@@ -70,8 +62,17 @@ function getCalories(listOfInputs)
     let result = 0;
 
     for(const inputElement of listOfInputs)
-    {
+    {   
+
+        if(isValidInput(inputElement.value))
+        {       
+            alert("Invalid input");
+            return 0;
+        }
+
         result += Number(inputElement.value); // cause value is string
+
+        
     }
 
     return result;
@@ -118,4 +119,16 @@ function clearAll()
 
     outputSection.innerHTML = "";
     
+}
+
+// validate input
+function isValidInput(str){
+
+    if(str === "")
+    {
+        return true;
+    }
+    const regex = /\d+e\d+/i;
+
+    return str.match(regex);
 }
