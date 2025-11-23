@@ -1,10 +1,41 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### STS ###
+# Documentation/Utility Files
+HELP.md
+
+# OS and Editor Files
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+
+# Node modules
+node_modules/
+
+# Logs and Temp files
+*.log
+/logs/
+*.tmp
+*.swp
+*.cache
+
+# Java/Maven Build Artifacts
+/target/
+/out/
+build/
+*.class
+*.jar
+*.war
+*.zip
+*.tar.gz
+.mvn/wrapper/maven-wrapper.jar
+
+# IDEA/STS/NetBeans Project Settings
+.idea
+*.iml
+*.ipr
+*.iws
 .apt_generated
 .classpath
 .factorypath
@@ -12,22 +43,12 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
+!**/src/main/**/target/
+!**/src/test/**/target/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-### VS Code ###
-.vscode/

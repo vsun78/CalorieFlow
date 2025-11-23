@@ -1,0 +1,1 @@
+CalorieFlow is a full-stack calorie and nutrition tracking application that allows users to log meals, set daily calorie goals, and view their consumption history. The app is designed as a clean and modern CRUD project built for learning full-stack development using HTML/CSS/JavaScript, Spring Boot (Java), and MySQL/PostgreSQL.
