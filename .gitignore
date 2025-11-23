@@ -1,3 +1,7 @@
+
+# Documentation/Utility Files
+HELP.md
+
 # OS and Editor Files
 # OS files
 .DS_Store
@@ -9,31 +13,42 @@ Thumbs.db
 # Node modules
 node_modules/
 
-# Logs
+# Logs and Temp files
 *.log
 /logs/
-
-# Temp files
 *.tmp
 *.swp
+*.cache
 
 # Java/Maven Build Artifacts
-# Maven target directory
 /target/
-
-# IDEA project settings
-.idea/
-*.iml
 /out/
-
-# Compiled class files
+build/
 *.class
-
-# Jar/War files created by the build
 *.jar
 *.war
 *.zip
 *.tar.gz
-
-# Maven wrapper folder
 .mvn/wrapper/maven-wrapper.jar
+
+# IDEA/STS/NetBeans Project Settings
+.idea
+*.iml
+*.ipr
+*.iws
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+!**/src/main/**/target/
+!**/src/test/**/target/
+!**/src/main/**/build/
+!**/src/test/**/build/
