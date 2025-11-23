@@ -1,3 +1,4 @@
+# OS and Editor Files
 # OS files
 .DS_Store
 Thumbs.db
@@ -5,12 +6,34 @@ Thumbs.db
 # VS Code settings
 .vscode/
 
-# Node modules (in case you use npm later)
+# Node modules
 node_modules/
 
 # Logs
 *.log
+/logs/
 
 # Temp files
 *.tmp
 *.swp
+
+# Java/Maven Build Artifacts
+# Maven target directory
+/target/
+
+# IDEA project settings
+.idea/
+*.iml
+/out/
+
+# Compiled class files
+*.class
+
+# Jar/War files created by the build
+*.jar
+*.war
+*.zip
+*.tar.gz
+
+# Maven wrapper folder
+.mvn/wrapper/maven-wrapper.jar
