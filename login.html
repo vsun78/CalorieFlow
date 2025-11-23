@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LoginPage</title>
+    <link rel="stylesheet" href="loginStyle.css" />
 </head>
+
 <body>
-    
+    <main>
+            <div class = "login-container">
+                <form id="login-form">
+                    <img src="images/CalorieKarma.png" alt="Calorie Karma Logo" id="app-logo" />
+                    <input type="email" placeholder="Enter your email" id="emailLoginInput" required/>
+                    <input type="password" placeholder="Enter password" id="passwordLoginInput" required/>
+                    <button type="submit" id="login-button">Login</button>
+                    <p>Don't have an account? <a href="index.html" id="signup-link">Sign Up.</a></p>
+                </form>
+            </div>
+            
+
+    </main>
 </body>
 </html>

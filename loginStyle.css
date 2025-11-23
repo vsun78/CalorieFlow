@@ -1,0 +1,61 @@
+:root{
+    --light-grey: #FAFAFA;
+    --light-blue: #ADD8E6;
+}
+
+.login-container{
+    background-color: white;
+    max-width: 800px;
+    width: 90%;
+    margin: 50px auto;
+    padding: 50px 30px;
+    text-align: center;
+    border: 1px solid #dbdbdb;
+
+    height: 80vh; /*relative height to viewport height set in body as 80%*/
+
+}
+
+#login-form{
+    /* column behaviour*/
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    width: 100%; /* of the container */
+}
+
+#login-form input{
+    padding: 15px 15px;
+    font-size: 1.1em;
+    width: 50%;
+    background-color: var(--light-grey);
+
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+
+    box-sizing: border-box;
+    
+}
+
+body{
+    background-color: var(--light-grey);
+    height: 100%;
+}
+
+#app-logo{
+    width: 160px;
+    height: 150px;
+
+    border-radius: 50%; /* round the image */
+}
+
+#login-button{
+    background-color: #0095f6;
+    color: white;
+    padding: 15px 15px;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+
+    width: 50%;
+}
