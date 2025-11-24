@@ -1,14 +1,21 @@
-// DOM variables
+// signup DOM variables
 const emailSignupInput = document.getElementById("emailSignupInput");
 const usernameSignupInput = document.getElementById("usernameSignupInput");
 const passwordSignupInput = document.getElementById("passwordSignupInput");
 const signupForm = document.getElementById("signup-form");
 
-// functions
+// login DOM variables
+const emailLoginInput = document.getElementById("emailLoginInput");
+const passwordLoginInput = document.getElementById("passwordLoginInput");
+const loginForm = document.getElementById("login-form");
 
-signupForm.addEventListener("submit",(e) => {
+// functions
+if(signupForm){ // if because if on login form, then signupForm DNE
+    signupForm.addEventListener("submit",(e) => {
     e.preventDefault(); // ensures fetch logic runs without page refresh interruption
     registerUser(emailSignupInput.value,usernameSignupInput.value,passwordSignupInput.value)});
+}
+
 
 function registerUser(email, username, password)
 {
@@ -60,6 +67,55 @@ function registerUser(email, username, password)
     })
     .catch(error =>{
         console.error("Error during registration:", error);
+        alert(error.message || "Could not connect to the server");
+    });
+}
+
+if(loginForm)
+{
+    loginForm.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        loginUser(emailLoginInput.value, passwordLoginInput.value)
+    });
+}
+
+function loginUser(email, password)
+{
+    // user object
+
+    const userData = {
+        email: email,
+        password: password
+    }
+
+    // make the HTTP POST request using fetch
+    
+    const backendUrl = "http://localhost:8080/api/users/login";
+    const params = new URLSearchParams(userData);
+    const fullUrl = `${backendUrl}?${params.toString()}`;
+
+    fetch(fullUrl,{
+        method: `POST`
+    })
+    .then(response=>{
+        if(response.ok)
+        {
+            return response.json();
+        }
+        else{
+            return response.json().then(errorData =>{
+                
+                throw new Error(errorData.message || "Login failed");
+            });
+        }
+    })
+    .then(data =>{
+        console.log("Login successful!", data);
+
+        window.location.href="home.html";
+    })
+    .catch(error =>{
+        console.error("Error during login:", error);
         alert(error.message || "Could not connect to the server");
     });
 }
