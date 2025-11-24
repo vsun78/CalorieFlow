@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController // tell Spring this is a REST controller, automatically converts objects --> JSON for the frontend
 @RequestMapping("/api/users") // base URL for all endpoints here
+@CrossOrigin(origins = "*") // bypass CORS
 public class UserController {
 
     private final UserService userService; // allows the controller call the service layer for methods like regiserUser(), loginUser(), etc
