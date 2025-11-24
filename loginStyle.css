@@ -3,7 +3,7 @@
     --light-blue: #ADD8E6;
 }
 
-.login-container{
+.login-container, .signup-container{
     background-color: white;
     max-width: 800px;
     width: 90%;
@@ -16,7 +16,7 @@
 
 }
 
-#login-form{
+#login-form, #signup-form{
     /* column behaviour*/
     display: flex;
     flex-direction: column;
@@ -25,7 +25,7 @@
     width: 100%; /* of the container */
 }
 
-#login-form input{
+#login-form input, #signup-form input{
     padding: 15px 15px;
     font-size: 1.1em;
     width: 50%;
@@ -50,7 +50,7 @@ body{
     border-radius: 50%; /* round the image */
 }
 
-#login-button{
+#login-button, #signup-button{
     background-color: #0095f6;
     color: white;
     padding: 15px 15px;
