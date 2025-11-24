@@ -61,3 +61,24 @@ button {
     margin: 20px auto;
     text-align: center;
 }
+
+#profile-picture{
+    width: 62px;
+    height: 60px;
+
+    border-radius: 100%;
+
+    transition: box-shadow 0.3s ease-in-out; /* makes the shadow effect smooth*/
+    
+}
+
+#profile-picture:hover{
+   /* 
+     * offset-x, offset-y, blur-radius, spread-radius, color 
+     */
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.8);
+    
+    /* scale the image up slightly to emphasize the click area */
+    transform: scale(1.05);
+    
+}
