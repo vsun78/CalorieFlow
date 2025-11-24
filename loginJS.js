@@ -24,11 +24,12 @@ function registerUser(email, username, password)
 
     
     const backendUrl = "http://localhost:8080/api/users/register";
+    // since the backend uses @RequestParam, Spring Boot looks for the values of email, username, etc in the URL query string, not in the request body
+    const params = new URLSearchParams(userData); // transform the JS object into a URL query string
+    const fullUrl = `${backendUrl}?${params.toString()}`;
 
-    fetch(backendUrl,{
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'}, // tell the server we are sending JSON
-        body: JSON.stringify(userData) // convert the JS object to a JSON string
+    fetch(fullUrl,{
+        method: 'POST'
     })
     
 
