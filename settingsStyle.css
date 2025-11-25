@@ -1,0 +1,61 @@
+:root{
+    --light-grey: #FAFAFA;
+    --light-blue: #ADD8E6;
+}
+
+body{
+    background-color: var(--light-grey);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.settings-container{
+
+    background-color: white;
+    max-width: 500px;
+    width: 90%;
+    margin: 50px auto;
+    padding: 30px 50px;
+    border: 1px solid #dbdbdb;
+    
+    
+    display: flex; 
+    flex-direction: column;
+    gap: 20px; 
+}
+
+h1{
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+#email-output{
+    /* Ensure email text aligns nicely with the header */
+    margin-bottom: 10px;
+}
+
+#email-output p{
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #555;
+}
+
+
+.settings-container button{
+    width: 100%; 
+    padding: 10px 15px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #dbdbdb;
+    background-color: var(--light-grey);
+    color: #333;
+}
+
+#deleteButton{
+    background-color: #fcebeb;
+    color: #cc0000;
+    border: 1px solid #cc0000;
+    margin-top: 10px;
+}
