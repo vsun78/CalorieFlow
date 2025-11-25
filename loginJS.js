@@ -62,7 +62,7 @@ function registerUser(email, username, password)
         // and returned the result of response.json()
         console.log("Registration successful!", data);
 
-        window.location.href="home.html"; // redirect the user
+        window.location.href="login.html"; // redirect the user
 
     })
     .catch(error =>{
@@ -111,6 +111,8 @@ function loginUser(email, password)
     })
     .then(data =>{
         console.log("Login successful!", data);
+
+         localStorage.setItem('userEmail', data.email); // for settings.js
 
         window.location.href="home.html";
     })
