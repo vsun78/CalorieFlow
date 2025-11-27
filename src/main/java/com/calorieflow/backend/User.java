@@ -14,6 +14,8 @@ public class User {
     private String passwordHash;
     private LocalDateTime dateCreated;
 
+    private Long groupID; // Foreign key to Group
+
     public User(){
 
     }
@@ -24,6 +26,7 @@ public class User {
         this.username = username;
         this.passwordHash = passwordHash;
         this.dateCreated = dateCreated;
+        this.groupID= null; // default to null when created
     }
 
     public String getEmail()
@@ -43,6 +46,11 @@ public class User {
         return dateCreated;
     }
 
+    public Long getGroupID()
+    {
+        return groupID;
+    }
+
 
     public void setEmail(String email)
     {
@@ -59,6 +67,11 @@ public class User {
     public void setDateCreated(LocalDateTime dateCreated)
     {
         this.dateCreated = dateCreated;
+    }
+
+    public void setGroupID(Long groupID)
+    {
+        this.groupID = groupID;
     }
 
     @Override
