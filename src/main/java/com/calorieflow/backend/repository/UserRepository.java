@@ -5,6 +5,7 @@ package com.calorieflow.backend.repository;
 import com.calorieflow.backend.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 // extending JpaRepository gives a bunch of functions like save(user), findById(email), findAll(), etc
@@ -36,4 +37,5 @@ public interface UserRepository extends JpaRepository<User,String>{
     // check if a username is taken
     boolean existsByUsername(String username);
 
+    List<User> findByGroupID(Long groupID);
 }
