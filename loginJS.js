@@ -114,7 +114,14 @@ function loginUser(email, password)
 
          localStorage.setItem('userEmail', data.email); // for settings.js
 
-        window.location.href="home.html";
+         localStorage.setItem('userGroup', data.groupID);
+
+         if(data.groupID){
+            window.localtion.href="home.html";
+         }
+         else{
+            window.location.href="group-onboarding.html";
+         }
     })
     .catch(error =>{
         console.error("Error during login:", error);

@@ -1,0 +1,78 @@
+:root{
+    --light-grey: #FAFAFA;
+    --light-blue: #ADD8E6;
+    --dark-blue: #0095f6;
+    --border-color: #dbdbdb;
+    --font-stack: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body{
+    background-color: var(--light-grey);
+    font-family: var(--font-stack);
+    height: 100vh;
+}
+
+
+h1{
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+#create-group-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 15px;
+    width: 100%;
+}
+
+.form-section {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.form-section label {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0;
+}
+
+.form-section input{
+    padding: 12px 15px;
+    font-size: 1em;
+    width: 100%;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-section input:focus{
+    border-color: var(--dark-blue);
+    outline: none;
+}
+
+#create-group-button{
+    background-color: var(--dark-blue);
+    color: white;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    width: auto;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+#create-group-button:hover{
+    background-color: #007bb6;
+}
