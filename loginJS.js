@@ -117,7 +117,7 @@ function loginUser(email, password)
          localStorage.setItem('userGroup', data.groupID);
 
          if(data.groupID){
-            window.localtion.href="home.html";
+            window.location.href="home.html";
          }
          else{
             window.location.href="group-onboarding.html";
