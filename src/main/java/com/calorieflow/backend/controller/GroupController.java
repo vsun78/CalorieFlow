@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/groups")
 @CrossOrigin(origins = "*")
@@ -20,11 +22,12 @@ public class GroupController {
     }
 
     @PostMapping("/create")
-    public Group makeGroup(@RequestParam String email, @RequestParam String groupName)
+    public Group makeGroup(@RequestParam String groupName, @RequestParam List<String> memberEmails)
     {
-        return groupService.makeGroup(email,groupName);
+        return groupService.makeGroup(groupName,memberEmails);
     }
 
+    //obsolete
     @PostMapping("/join")
     public User joinGroup(@RequestParam String email, @RequestParam Long groupID)
     {

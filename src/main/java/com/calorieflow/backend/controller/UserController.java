@@ -2,8 +2,9 @@ package com.calorieflow.backend.controller;
 
 import com.calorieflow.backend.User;
 import com.calorieflow.backend.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController // tell Spring this is a REST controller, automatically converts objects --> JSON for the frontend
 @RequestMapping("/api/users") // base URL for all endpoints here
@@ -45,6 +46,12 @@ public class UserController {
     public void update(@RequestParam String email, @RequestParam String username, @RequestParam String password)
     {
         userService.updateUser(email,username,password);
+    }
+
+    @GetMapping("/get")
+    public Optional<User> get(@RequestParam String email)
+    {
+        return userService.getUser(email);
     }
 
 
