@@ -28,6 +28,13 @@ h1{
     width: 100%;
 }
 
+#more-members {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .form-section {
     width: 95%;
     display: flex;
@@ -60,7 +67,7 @@ h1{
     outline: none;
 }
 
-#create-group-button{
+#create-group-button, #add-person{
     background-color: var(--dark-blue);
     color: white;
     padding: 8px 12px;
