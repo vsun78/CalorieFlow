@@ -144,6 +144,18 @@ public class UserService {
         // its cause we didnt do anything that writes to the DB automatically such as userRepository.deleteById(id);
     }
 
+    public Optional<User> getUser(String email)
+    {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isEmpty())
+        {
+            throw new IllegalArgumentException("User does not exist!");
+        }
+
+        return user;
+
+    }
+
 
 
 

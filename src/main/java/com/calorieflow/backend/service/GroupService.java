@@ -19,26 +19,35 @@ public class GroupService {
 
     // business logic
 
-    public Group makeGroup(String userEmail, String groupName)
+    public Group makeGroup(String groupName, List<String> memberEmails)
     {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        if(user.getGroupID() != null)
-        {
-            throw new IllegalArgumentException("User is already in a group");
+        if (memberEmails.size() == 1 || memberEmails.isEmpty()) {
+            throw new IllegalArgumentException("Group must contain at least 2 members.");
         }
 
         Group newGroup = new Group(groupName);
         Group savedGroup = groupRepository.save(newGroup);
         // the group now has a name and generated ID by the DB
+        Long newGroupID = savedGroup.getId();
 
-        user.setGroupID(savedGroup.getId());
-        userRepository.save(user);
+        // 2. Link all members to the new group
+        for (String memberEmail : memberEmails) {
+            User member = userRepository.findByEmail(memberEmail)
+                    .orElseThrow(() -> new IllegalArgumentException("User " + memberEmail + " not found."));
+
+            if (member.getGroupID() != null) {
+                throw new IllegalArgumentException("User " + memberEmail + " is already in a group.");
+            }
+
+            // Link user to the new group
+            member.setGroupID(newGroupID);
+            userRepository.save(member);
+        }
 
         return savedGroup;
     }
 
+    // should become obsolete
     public User joinGroup(String userEmail, Long groupID){
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
