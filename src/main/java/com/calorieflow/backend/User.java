@@ -16,6 +16,8 @@ public class User {
 
     private Long groupID; // Foreign key to Group
 
+    private Boolean underBudget;
+
     public User(){
 
     }
@@ -27,6 +29,7 @@ public class User {
         this.passwordHash = passwordHash;
         this.dateCreated = dateCreated;
         this.groupID= null; // default to null when created
+        this.underBudget = null;
     }
 
     public String getEmail()
@@ -51,6 +54,10 @@ public class User {
         return groupID;
     }
 
+    public Boolean getUnderBudget(){
+        return underBudget;
+    }
+
 
     public void setEmail(String email)
     {
@@ -72,6 +79,11 @@ public class User {
     public void setGroupID(Long groupID)
     {
         this.groupID = groupID;
+    }
+
+    public void setUnderBudget(Boolean underBudget)
+    {
+        this.underBudget = underBudget;
     }
 
     @Override
