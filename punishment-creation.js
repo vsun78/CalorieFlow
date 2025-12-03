@@ -6,6 +6,8 @@ const fullUrl = `${backendUrl}?${params.toString()}`;
 const punishmentForm = document.getElementById("create-punishment-form");
 const punishmentDisplay = document.getElementById("punishment-group");
 
+const assignPunishmentUrl = "http://localhost:8080/api/punishments/assign";
+
 fetch(fullUrl, {method: `GET`})
 .then(response =>{
     if(response.ok)
@@ -21,6 +23,8 @@ fetch(fullUrl, {method: `GET`})
 .then(data =>{
     // data is the List<User>
     renderPunishmentPage(data);
+
+    punishmentForm.addEventListener('submit', handlePunishmentSubmission);
 })
 .catch(error =>{
     alert(error.message);
@@ -39,7 +43,7 @@ function renderPunishmentPage(membersList)
             inputHTML += `
             <section class = "person-section">
                 <label for="${inputId}">Enter a punishment for ${member.username}</label>
-                <input type="text" id="${inputId}" required>
+                <input type="text" id="${inputId}" data-target-email ="${member.email}" required>
             </section>`;
         }
     })
@@ -50,6 +54,55 @@ function renderPunishmentPage(membersList)
         `;
 }
 
+async function handlePunishmentSubmission(e)
+{
+    e.preventDefault();
+
+    const punishmentInputs = punishmentDisplay.querySelectorAll('input[type="text"]');
+    const submissionTasks = [];
+
+    for(const input of punishmentInputs){
+        const targetEmail = input.getAttribute('data-target-email');
+        const details = input.value.trim();
+
+        if(details){
+            submissionTasks.push(submitPunishmentTask(targetEmail, details));
+        }
+
+        
+    }
+
+    try{
+            await Promise.all(submissionTasks);
+            alert("Success! All punishments assigned. Going to home page");
+            localStorage.removeItem('currentGroupId');
+            window.location.href="home.html";
+        }
+        catch(error){
+            alert(`Error during assignment: ${error.message}`);
+        }
+
+}
+
+async function submitPunishmentTask(targetEmail, details)
+{
+    const params = new URLSearchParams({
+        assignerEmail: currentUserEmail,
+        targetEmail: targetEmail,
+        details: details
+    })
+
+    const fullUrl = `${assignPunishmentUrl}?${params.toString()}`;
+    const response = await fetch(fullUrl, {method: 'POST'});
+
+    if(!response.ok){
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+
+    }
+
+    return response.json();
+}
 
 
 
