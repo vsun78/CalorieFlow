@@ -1,0 +1,80 @@
+:root {
+    --light-grey: #FAFAFA;
+    --light-blue: #ADD8E6;
+    --dark-blue: #0095f6;
+    --border-color: #dbdbdb;
+    --font-stack: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body {
+    background-color: var(--light-grey);
+    font-family: var(--font-stack);
+    height: 100vh;
+    padding-top: 50px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: var(--dark-blue);
+    text-align: center;
+}
+
+#punishment-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.person-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.person-section label {
+    font-size: 1em;
+    font-weight: 600;
+    color: #333;
+}
+
+.person-section input {
+    padding: 12px;
+    font-size: 1em;
+    width: 100%;
+    background-color: var(--light-grey);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.person-section input:focus {
+    border-color: var(--dark-blue);
+    outline: none;
+}
+
+#create-punishment-button {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+#create-punishment-button:hover {
+    background-color: #007bb6;
+}
