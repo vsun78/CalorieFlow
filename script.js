@@ -5,6 +5,15 @@ const entryButton = document.getElementById("entry-button");
 const calculateButton = document.getElementById("calculate-button");
 const clearButton = document.getElementById("clear-button");
 const outputSection = document.getElementById("output");
+let remainingCalories;
+const simulateButton = document.getElementById("simulate-button");
+const dailyResultsModal = document.querySelector('.dailyResults');
+const showResults = document.getElementById("show-results");
+const closeResults = document.getElementById("close-daily-results");
+
+const punishmentListModal = document.querySelector('.punishmentList');
+const showPunishmentResults = document.getElementById("show-punishment-results");
+const closePunishmentResults = document.getElementById("close-p-results");
 
 //functions
 
@@ -49,7 +58,7 @@ function calculateCalories(e){
         return;
     }
     // remaining calories calculation
-    const remainingCalories = Number(budget.value) + exerciseTotalCalories - breakfastTotalCalories - 
+    remainingCalories = Number(budget.value) + exerciseTotalCalories - breakfastTotalCalories - 
     lunchTotalCalories - dinnerTotalCalories - snacksTotalCalories;
 
     output(remainingCalories);
@@ -132,3 +141,72 @@ function isValidInput(str){
 
     return str.match(regex);
 }
+
+// simulate the end of the day to see if the user met their caloric goals
+simulateButton.addEventListener("click", () => {showDailyResults()});
+
+function showDailyResults()
+{   
+    showResults.innerHTML = ``;
+
+    dailyResultsModal.classList.toggle('show-modal');
+
+    // determine if the calories are met or not
+    if(remainingCalories >= 0) // goals are met
+    {
+        showResults.innerHTML = `
+        <p>Congrats! You met your daily caloric goal!</p>
+        <br>
+        <p>Let's see if your friends were as disciplined:</p>
+        <br>
+        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
+        <p>person 1</p>
+        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
+        <p>person 2</p>
+        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
+        <p>person 3</p>
+        `; 
+
+        closeResults.textContent = "Close";
+        
+    }
+    else{
+        showResults.innerHTML = `
+        <p>Oops! You fell short of your caloric goal.</p>
+        <br>
+        <p>Let's see if your friends clutch up:</p>
+        <br>
+        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
+        <p>person 1</p>
+        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
+        <p>person 2</p>
+        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
+        <p>person 3</p>
+        `; 
+
+        closeResults.textContent = "View Punishment";
+	}
+
+        
+    
+
+}
+
+closeResults.addEventListener("click", handleModalButtonAction);
+
+function handleModalButtonAction(){
+    if(closeResults.textContent === "View Punishment"){
+        dailyResultsModal.classList.toggle('show-modal');
+        punishmentListModal.classList.toggle('show-modal');
+        
+        
+    }
+    else{
+        dailyResultsModal.classList.toggle('show-modal');
+    }
+}
+
+closePunishmentResults.addEventListener("click", () =>{punishmentListModal.classList.toggle('show-modal');});
+
+
+
