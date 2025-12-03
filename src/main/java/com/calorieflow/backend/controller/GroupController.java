@@ -40,4 +40,8 @@ public class GroupController {
         groupService.deleteGroup(userEmail);
     }
 
+    @GetMapping("/get")
+    public List<User> get(@RequestParam Long groupID){
+        return groupService.getGroupMembers(groupID); }
+
 }

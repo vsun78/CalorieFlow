@@ -93,4 +93,9 @@ public class GroupService {
 
     }
 
+    public List<User> getGroupMembers(Long groupID)
+    {
+        return userRepository.findByGroupID(groupID);
+    }
+
 }
