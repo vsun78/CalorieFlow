@@ -15,6 +15,22 @@ const punishmentListModal = document.querySelector('.punishmentList');
 const showPunishmentResults = document.getElementById("show-punishment-results");
 const closePunishmentResults = document.getElementById("close-p-results");
 
+const loseCase = document.querySelector('.loseCase');
+const closeAndRestart = document.getElementById("go-restart");
+
+const userEmail = localStorage.getItem('userEmail');
+const groupID = localStorage.getItem('currentGroupId');
+
+const backendUrl = "http://localhost:8080/api/groups/get";
+const params = new URLSearchParams({groupID: groupID});
+const fullUrl = `${backendUrl}?${params.toString()}`;
+
+let survive = false;
+
+const backendUrlP = "http://localhost:8080/api/punishments/retreive";
+
+
+
 //functions
 
 entryButton.addEventListener("click", () => addEntry(selectList.value)); 
@@ -167,7 +183,10 @@ function showDailyResults()
         <p>person 3</p>
         `; 
 
+        updateUserStatus(userEmail, true);
+
         closeResults.textContent = "Close";
+
         
     }
     else{
@@ -184,6 +203,8 @@ function showDailyResults()
         <p>person 3</p>
         `; 
 
+        updateUserStatus(userEmail, false);
+
         closeResults.textContent = "View Punishment";
 	}
 
@@ -194,19 +215,126 @@ function showDailyResults()
 
 closeResults.addEventListener("click", handleModalButtonAction);
 
-function handleModalButtonAction(){
+async function handleModalButtonAction(){
+    
+    dailyResultsModal.classList.toggle('show-modal');
+
     if(closeResults.textContent === "View Punishment"){
-        dailyResultsModal.classList.toggle('show-modal');
-        punishmentListModal.classList.toggle('show-modal');
-        
-        
-    }
-    else{
-        dailyResultsModal.classList.toggle('show-modal');
+
+        // get all members and loop through to check if they survived
+        try{
+            const response = await fetch(fullUrl, {method: `GET`});
+
+            if(response.ok)
+            {
+                const data = await response.json();
+
+                checkSurvival(data);
+                
+
+                if(survive)
+                {   
+                    // group survived (at least one met caloric goal), redirect
+                    punishmentListModal.classList.toggle('show-modal');
+                    showPunishmentResults.innerHTML = await displayPunishmentList(data);
+                }
+                else{
+                    // group lost the challenge, go back to login
+                    loseCase.classList.toggle('show-modal');
+
+                    // call group deletion, punishment deletion, and redirect to login
+                }
+
+
+            }
+        }
+        catch(error)
+        {
+            alert(error.message);
+        }
     }
 }
 
 closePunishmentResults.addEventListener("click", () =>{punishmentListModal.classList.toggle('show-modal');});
 
+function checkSurvival(membersList)
+{
+    membersList.forEach(member =>{
+        if(member.underBudget)
+        {
+            survive = true;
+        }
+    })
+}
+
+async function displayPunishmentList(membersList)
+{       
+    //.map > foreach because of async
+    const punishmentPromises = membersList.map(async member =>{
+        if(member.underBudget === false)
+        {
+            let paramsP = new URLSearchParams({targetEmail: member.email});
+            let fullUrlP = `${backendUrlP}?${paramsP.toString()}`;
+
+            const response = await fetch (fullUrlP, {method: `GET`});
+
+            if(response.ok)
+            {
+                const data = await response.json();
+                return{
+                    username: member.username,
+                    details: data.details,
+                    metGoal: false
+                }
+            }
+        }
+        return {
+            username: member.username,
+            details: "Met Goal! (No punishment assigned)",
+            metGoal: true
+        };
+    })
+    
+
+    const results = await Promise.all(punishmentPromises); 
+
+    let punishmentListHTML = '';
+
+    results.forEach(result => {
+
+    const color = result.metGoal ? 'green' : 'red'; // Determine color based on metGoal
+
+    punishmentListHTML += `<h2 style="color:${color}">${result.username}'s punishment is: 
+    ${result.details}</h2> <br>` //Use the result object properties
+    });
+    
+    return punishmentListHTML;
+}
+
+// update user underBudget status
+
+async function updateUserStatus(email, underBudget)
+{
+    const backendUrl = "http://localhost:8080/api/users/updateStatus";
+    const params = new URLSearchParams({
+        email: email,
+        underBudget: underBudget
+    });
+    const fullUrl = `${backendUrl}?${params.toString()}`;
+
+    try {
+        // use PUT method to update the status
+        const response = await fetch(fullUrl, { method: 'PUT' }); 
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message);
+        }
+        console.log(`Status updated successfully: underBudget = ${underBudget}`);
+    } catch (error) {
+        console.error("Error updating user status:", error.message);
+        
+        alert(`Error communicating with server to save status: ${error.message}`); 
+    }
+}
 
 

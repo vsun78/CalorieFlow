@@ -5,7 +5,6 @@ const params = new URLSearchParams({groupID: groupID});
 const fullUrl = `${backendUrl}?${params.toString()}`;
 const punishmentForm = document.getElementById("create-punishment-form");
 const punishmentDisplay = document.getElementById("punishment-group");
-
 const assignPunishmentUrl = "http://localhost:8080/api/punishments/assign";
 
 fetch(fullUrl, {method: `GET`})
@@ -75,7 +74,6 @@ async function handlePunishmentSubmission(e)
     try{
             await Promise.all(submissionTasks);
             alert("Success! All punishments assigned. Going to home page");
-            localStorage.removeItem('currentGroupId');
             window.location.href="home.html";
         }
         catch(error){
