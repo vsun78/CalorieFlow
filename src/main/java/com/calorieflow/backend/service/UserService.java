@@ -156,6 +156,27 @@ public class UserService {
 
     }
 
+    public Boolean getStatus(String email)
+    {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isEmpty())
+        {
+            throw new IllegalArgumentException("User does not exist!");
+        }
+
+        return user.get().getUnderBudget();
+
+    }
+
+    public void updateStatus(String email, Boolean underBudget)
+    {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User with email " + email + " not found."));
+
+        // Link user to the new group
+        user.setUnderBudget(underBudget);
+        userRepository.save(user);
+    }
 
 
 
