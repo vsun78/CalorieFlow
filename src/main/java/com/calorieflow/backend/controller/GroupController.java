@@ -44,4 +44,18 @@ public class GroupController {
     public List<User> get(@RequestParam Long groupID){
         return groupService.getGroupMembers(groupID); }
 
+    @PutMapping("/updateDays")
+    public Group updateDays(@RequestParam Long groupID){
+        return groupService.updateDays(groupID);
+    }
+
+    @GetMapping("/getDays")
+    public int getDays(@RequestParam Long groupID){
+        return groupService.getDays(groupID);
+    }
+
+
+
 }
+
+

@@ -98,4 +98,21 @@ public class GroupService {
         return userRepository.findByGroupID(groupID);
     }
 
+    public int getDays(Long groupID)
+    {
+        Group group = groupRepository.findById(groupID)
+                .orElseThrow(() -> new IllegalArgumentException("Group not found"));
+
+        return group.getDays();
+    }
+
+    public Group updateDays(Long groupID)
+    {
+        Group group = groupRepository.findById(groupID)
+                .orElseThrow(() -> new IllegalArgumentException("Group not found"));
+
+        group.setDays(group.getDays() + 1);
+        return groupRepository.save(group);
+    }
+
 }

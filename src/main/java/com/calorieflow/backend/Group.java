@@ -11,6 +11,8 @@ public class Group {
     private Long id;
     private String name;
 
+    private int days;
+
     public Group(){ // default constructor, required by JPA)
 
     }
@@ -18,6 +20,7 @@ public class Group {
     public Group (String name)
     {
         this.name = name;
+        this.days = 1;
     }
 
     public Long getId() {
@@ -35,5 +38,15 @@ public class Group {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
+
+
 
 }
