@@ -54,6 +54,18 @@ public class UserController {
         return userService.getUser(email);
     }
 
+    @GetMapping("/getStatus")
+    public boolean getStatus(@RequestParam String email)
+    {
+        return userService.getStatus(email);
+    }
+
+    @PutMapping("/updateStatus")
+    public void updateStatus(@RequestParam String email, @RequestParam Boolean underBudget)
+    {
+        userService.updateStatus(email,underBudget);
+    }
+
 
 
 
