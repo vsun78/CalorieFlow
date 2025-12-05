@@ -59,3 +59,58 @@ h1{
     border: 1px solid #cc0000;
     margin-top: 10px;
 }
+
+/* 1. Container Styles */
+#achievement-banner-container {
+    margin-bottom: 25px; 
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+}
+
+/* Style for the 'Achievements:' heading */
+#achievement-banner-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+/* Layout for Stacked Badges */
+#badges-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Allows badges to wrap to the next line if needed */
+    gap: 20px; /* Spacing between badges */
+    justify-content: center; /* Centers the row of badges */
+}
+
+/* individual Badge Container */
+.achievement-badge {
+    text-align: center;
+    
+    max-width: 140px; 
+}
+
+/*  Image Styles */
+.achievement-badge img {
+    /* Target the image within the correct stacking class */
+    
+    /* Applying user's requested size and ensuring it's applied */
+    max-width: 120px; 
+    width: 120px; 
+    
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Center the image */
+    margin: 0 auto 5px auto; /* Center and add margin below image */
+}
+
+/* 5. Text Styles */
+.achievement-badge p {
+    /* Target the text within the correct stacking class */
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #2871c5;
+    text-align: center;
+    margin-top: 5px;
+}

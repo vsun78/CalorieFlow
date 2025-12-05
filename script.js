@@ -185,7 +185,7 @@ function showDailyResults()
 
         updateUserStatus(userEmail, true);
 
-        closeResults.textContent = "Close";
+        closeResults.textContent = "View Punishment";
 
         
     }
@@ -237,6 +237,32 @@ async function handleModalButtonAction(){
                     // group survived (at least one met caloric goal), redirect
                     punishmentListModal.classList.toggle('show-modal');
                     showPunishmentResults.innerHTML = await displayPunishmentList(data);
+
+                    // check if group earned an accolade with days survived
+                    const daysSurvivedUrl = "http://localhost:8080/api/groups/getDays";
+                    const daysParam = new URLSearchParams({groupID: groupID});
+                    const daysFullUrl = `${daysSurvivedUrl}?${daysParam.toString()}`;
+
+                    try{
+                        const daysResponse = await fetch(daysFullUrl,{method: `GET`});
+                        if(daysResponse.ok)
+                        {
+                            const daysData = await daysResponse.json();
+                            
+                            // method to check accolades requirements met
+                            metDaysRequirements(daysData);
+                        }
+                        else{
+                            const errorData = await daysResponse.json();
+                            console.error("Error fetching days survived:", errorData.message);
+                        }
+                    }
+                    catch(error){
+                        console.log("Error: ", error.message);
+                    }
+
+                    // update days
+                    
                 }
                 else{
                     // group lost the challenge, go back to login
@@ -252,6 +278,39 @@ async function handleModalButtonAction(){
         {
             alert(error.message);
         }
+    }
+}
+
+function metDaysRequirements(numDays)
+{   
+
+    // array to hold all badges the user has earned
+    const achievementsList = [];
+
+    if(numDays >= 10)
+    {
+        achievementsList.push('banner10');
+    }
+    if(numDays >= 30)
+    {
+        achievementsList.push('banner30');
+    }
+    if(numDays >= 100){
+       achievementsList.push('banner100');
+    }
+    if(numDays >= 365)
+    {
+        achievementsList.push('banner365');
+    }
+
+    if(achievementsList.length > 0)
+    {
+        localStorage.setItem('achievementsList', JSON.stringify(achievementsList));
+        console.log("new achievement unlocked!")
+    }
+    else
+    {
+        localStorage.removeItem('achievementsList');
     }
 }
 
@@ -271,7 +330,7 @@ async function displayPunishmentList(membersList)
 {       
     //.map > foreach because of async
     const punishmentPromises = membersList.map(async member =>{
-        if(member.underBudget === false)
+        if(member.underBudget === false || member.underBudget === null)
         {
             let paramsP = new URLSearchParams({targetEmail: member.email});
             let fullUrlP = `${backendUrlP}?${paramsP.toString()}`;

@@ -5,6 +5,9 @@ const passwordButton = document.getElementById("passwordButton");
 const deleteButton = document.getElementById("deleteButton");
 const userEmail = localStorage.getItem('userEmail');
 
+const bannerContainer = document.getElementById('bannerContainer');
+const achievementsJson = localStorage.getItem('achievementsList'); // array string
+
 // functions
 
 deleteButton.addEventListener("click", (e) =>{
@@ -43,3 +46,57 @@ function deleteUser(email)
         alert(error.message);
     })
 }
+
+const achievementTextMap = {
+    'banner10': '10 Day Challenge Winner!',
+    'banner30': '30 Day Challenge Winner!',
+    'banner100': '100 Day Challenge Winner!',
+    'banner365': '365 Day Challenge Winner!'
+};
+
+
+ // checks local storage for an achievement and displays the corresponding banner image.
+
+function displayAchievementBanner() {
+    if (!achievementsJson) {
+        return;
+    }
+
+    try {
+        // parse the JSON string back into a JavaScript array
+        const achievementsList = JSON.parse(achievementsJson);
+
+        if (!Array.isArray(achievementsList) || achievementsList.length === 0) {
+            return;
+        }
+
+        let badgesHTML = '<div id="badges-wrapper">'; // Open the wrapper
+        
+        // loop through all achieved badges and generate HTML for each
+        achievementsList.forEach(key => {
+            const altText = achievementTextMap[key];
+            const filename = `${key}.png`;
+            
+            if (altText) {
+                // Each badge gets its own div
+                badgesHTML += `
+                    <div class="achievement-badge">
+                        <img src="images/${filename}" alt="${altText}">
+                        <p>${altText}</p>
+                    </div>
+                `;
+            }
+        });
+        
+        badgesHTML += '</div>'; // Close the wrapper
+
+        bannerContainer.innerHTML = '<h2>Achievements:</h2>' + badgesHTML;
+
+    } catch (e) {
+        console.error("Error parsing achievements from localStorage:", e);
+    }
+}
+
+// Execute the banner display logic when settings.js runs
+document.addEventListener('DOMContentLoaded', displayAchievementBanner);
+
