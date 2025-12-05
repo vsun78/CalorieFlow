@@ -26,6 +26,7 @@ const params = new URLSearchParams({groupID: groupID});
 const fullUrl = `${backendUrl}?${params.toString()}`;
 
 let survive = false;
+let allMembersData = null; // New global variable to store member data
 
 const backendUrlP = "http://localhost:8080/api/punishments/retreive";
 
@@ -202,146 +203,139 @@ function isValidInput(str){
 }
 
 // simulate the end of the day to see if the user met their caloric goals
-simulateButton.addEventListener("click", () => {showDailyResults()});
+simulateButton.addEventListener("click", showDailyResults);
 
-function showDailyResults()
+async function showDailyResults()
 {   
-    showResults.innerHTML = ``;
-
-    dailyResultsModal.classList.toggle('show-modal');
-
-    // determine if the calories are met or not
-    if(remainingCalories >= 0) // goals are met
-    {
-        showResults.innerHTML = `
-        <p>Congrats! You met your daily caloric goal!</p>
-        <br>
-        <p>Let's see if your friends were as disciplined:</p>
-        <br>
-        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
-        <p>person 1</p>
-        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
-        <p>person 2</p>
-        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
-        <p>person 3</p>
-        `; 
-
-        updateUserStatus(userEmail, true);
-
-        closeResults.textContent = "View Punishment";
-
-        
-    }
-    else{
-        showResults.innerHTML = `
-        <p>Oops! You fell short of your caloric goal.</p>
-        <br>
-        <p>Let's see if your friends clutch up:</p>
-        <br>
-        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
-        <p>person 1</p>
-        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
-        <p>person 2</p>
-        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
-        <p>person 3</p>
-        `; 
-
-        updateUserStatus(userEmail, false);
-
-        closeResults.textContent = "View Punishment";
-	}
-
-        
+    // 1. Update current user's status first (MUST be done before fetching the list)
+    const currentUserPassed = remainingCalories >= 0;
+    updateUserStatus(userEmail, currentUserPassed);
     
+    // 2. Fetch all group members
+    showResults.innerHTML = '<p>Loading group results...</p>';
+    dailyResultsModal.classList.add('show-modal');
+    
+    let friendsStatusHTML = 'Could not load friends status.';
+    
+    try {
+        const response = await fetch(fullUrl, { method: `GET` });
+        if (response.ok) {
+            allMembersData = await response.json(); // Set global data
+            
+            // Set survival status
+            checkSurvival(allMembersData); 
+            
+            // Render the friends status
+            friendsStatusHTML = renderFriendsStatus(allMembersData, userEmail);
+            
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.message);
+        }
+    } catch (error) {
+        console.error("Error fetching group data for results:", error.message);
+        friendsStatusHTML = `<p style="color:red;">Error fetching group data: ${error.message}</p>`;
+    }
 
+    // 3. Populate modal content
+    const userPassMessage = currentUserPassed 
+        ? "Congrats! You met your daily caloric goal!" 
+        : "Oops! You fell short of your caloric goal.";
+    
+    const friendsIntroMessage = currentUserPassed
+        ? "Let's see if your friends were as disciplined:"
+        : "Let's see if your friends clutch up:";
+
+    showResults.innerHTML = `
+        <p>${userPassMessage}</p>
+        <br>
+        <p>${friendsIntroMessage}</p>
+        <br>
+        ${friendsStatusHTML}
+    `;
+
+    closeResults.textContent = "View Punishment";
 }
 
 closeResults.addEventListener("click", handleModalButtonAction);
 
 async function handleModalButtonAction(){
     
-    dailyResultsModal.classList.toggle('show-modal');
+    // Close the current modal
+    dailyResultsModal.classList.remove('show-modal'); 
 
     if(closeResults.textContent === "View Punishment"){
+        
+        // Use the globally stored data from showDailyResults
+        const data = allMembersData; 
 
-        // get all members and loop through to check if they survived
-        try{
-            const response = await fetch(fullUrl, {method: `GET`});
+        if(!data){
+            alert("Error: Group data was not loaded in the previous step.");
+            return;
+        }
 
-            if(response.ok)
-            {
-                const data = await response.json();
+        // Re-run checkSurvival on the latest data just before deciding the flow
+        checkSurvival(data);
+        
+        if(survive)
+        {   
+            // group survived (at least one met caloric goal)
+            punishmentListModal.classList.add('show-modal');
+            showPunishmentResults.innerHTML = await displayPunishmentList(data);
 
-                checkSurvival(data);
-                
+            // update days (update b4 get)
+            const updateDaysSurvivedUrl = "http://localhost:8080/api/groups/updateDays";
+            const updateDaysParam = new URLSearchParams({groupID: groupID});
+            const updateDaysFullUrl = `${updateDaysSurvivedUrl}?${updateDaysParam.toString()}`;
 
-                if(survive)
-                {   
-                    // group survived (at least one met caloric goal), redirect
-                    punishmentListModal.classList.toggle('show-modal');
-                    showPunishmentResults.innerHTML = await displayPunishmentList(data);
-
-                    // update days (update b4 get)
-                    const updateDaysSurvivedUrl = "http://localhost:8080/api/groups/updateDays";
-                    const updateDaysParam = new URLSearchParams({groupID: groupID});
-                    const updateDaysFullUrl = `${updateDaysSurvivedUrl}?${updateDaysParam.toString()}`;
-
-                    try{
-                        const updateDaysResponse = await fetch(updateDaysFullUrl,{method: `PUT`});
-                        if(updateDaysResponse.ok)
-                        {
-                            const updateDaysData = await updateDaysResponse.json();
-                            
-                            // update method?
-                        }
-                        else{
-                            const errorData = await updateDaysResponse.json();
-                            console.error("Error fetching days survived:", errorData.message);
-                        }
-                    }
-                    catch(error){
-                        console.log("Error: ", error.message);
-                    }
-
-
-                    // check if group earned an accolade with days survived
-                    const daysSurvivedUrl = "http://localhost:8080/api/groups/getDays";
-                    const daysParam = new URLSearchParams({groupID: groupID});
-                    const daysFullUrl = `${daysSurvivedUrl}?${daysParam.toString()}`;
-
-                    try{
-                        const daysResponse = await fetch(daysFullUrl,{method: `GET`});
-                        if(daysResponse.ok)
-                        {
-                            const daysData = await daysResponse.json();
-                            
-                            // method to check accolades requirements met
-                            metDaysRequirements(daysData);
-                        }
-                        else{
-                            const errorData = await daysResponse.json();
-                            console.error("Error fetching days survived:", errorData.message);
-                        }
-                    }
-                    catch(error){
-                        console.log("Error: ", error.message);
-                    }
-
+            try{
+                const updateDaysResponse = await fetch(updateDaysFullUrl,{method: `PUT`});
+                if(updateDaysResponse.ok)
+                {
+                    const updateDaysData = await updateDaysResponse.json();
                     
+                    // update method?
                 }
                 else{
-                    // group lost the challenge, go back to login
-                    loseCase.classList.toggle('show-modal');
-
-                    // call group deletion, punishment deletion, and redirect to login
+                    const errorData = await updateDaysResponse.json();
+                    console.error("Error fetching days survived:", errorData.message);
                 }
-
-
             }
+            catch(error){
+                console.log("Error: ", error.message);
+            }
+
+
+            // check if group earned an accolade with days survived
+            const daysSurvivedUrl = "http://localhost:8080/api/groups/getDays";
+            const daysParam = new URLSearchParams({groupID: groupID});
+            const daysFullUrl = `${daysSurvivedUrl}?${daysParam.toString()}`;
+
+            try{
+                const daysResponse = await fetch(daysFullUrl,{method: `GET`});
+                if(daysResponse.ok)
+                {
+                    const daysData = await daysResponse.json();
+                    
+                    // method to check accolades requirements met
+                    metDaysRequirements(daysData);
+                }
+                else{
+                    const errorData = await daysResponse.json();
+                    console.error("Error fetching days survived:", errorData.message);
+                }
+            }
+            catch(error){
+                console.log("Error: ", error.message);
+            }
+
+            
         }
-        catch(error)
-        {
-            alert(error.message);
+        else{
+            // group lost the challenge, go back to login
+            loseCase.classList.add('show-modal');
+
+            // call group deletion, punishment deletion, and redirect to login
         }
     }
 }
@@ -383,13 +377,47 @@ closePunishmentResults.addEventListener("click", () =>{punishmentListModal.class
 
 function checkSurvival(membersList)
 {
+    survive = false; // Reset global flag
     membersList.forEach(member =>{
-        if(member.underBudget)
+        // Only set survive to true if a member explicitly passed (underBudget === true)
+        if(member.underBudget === true) 
         {
             survive = true;
         }
     })
 }
+
+// Renders the list of friends with their status and hover stamp
+function renderFriendsStatus(membersList, currentUserEmail) {
+    let friendsHTML = '<div class="friends-status-list">';
+    // Filter out the current user, as their status is already displayed
+    const friends = membersList.filter(member => member.email !== currentUserEmail);
+
+    if (friends.length === 0) {
+        return '<p>No other members in the group.</p>';
+    }
+
+    friends.forEach(member => {
+        const hasPassed = member.underBudget === true;
+        const statusText = hasPassed ? 'Passed' : (member.underBudget === false ? 'Failed' : 'Status Pending');
+        const stampImage = hasPassed ? 'images/passStamp.jpg' : 'images/failStamp.jpg';
+        
+        friendsHTML += `
+            <div class="friend-status-item">
+                <div class="profile-and-name">
+                    <img src="images/profile-icon.png" alt="Profile Picture" class="friend-profile-picture" />
+                    <p class="friend-name">${member.username}</p>
+                </div>
+                <div class="stamp-container">
+                    <img src="${stampImage}" alt="${statusText} Stamp" class="status-stamp" />
+                </div>
+            </div>
+        `;
+    });
+    friendsHTML += '</div>';
+    return friendsHTML;
+}
+
 
 async function displayPunishmentList(membersList)
 {       
@@ -425,11 +453,17 @@ async function displayPunishmentList(membersList)
     let punishmentListHTML = '';
 
     results.forEach(result => {
+        const statusClass = result.metGoal ? 'pass-status' : 'fail-status';
+        const punishmentMessage = result.metGoal 
+            ? `<span class="${statusClass}">Met Goal! No punishment assigned.</span>` 
+            : `<span class="${statusClass}">Punishment:</span> ${result.details}`;
 
-    const color = result.metGoal ? 'green' : 'red'; // Determine color based on metGoal
-
-    punishmentListHTML += `<h2 style="color:${color}">${result.username}'s punishment is: 
-    ${result.details}</h2> <br>` //Use the result object properties
+        punishmentListHTML += `
+            <div class="punishment-entry">
+                <h3>${result.username}</h3>
+                <p class="punishment-details">${punishmentMessage}</p>
+            </div>
+        `;
     });
     
     return punishmentListHTML;

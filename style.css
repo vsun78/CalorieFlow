@@ -332,3 +332,111 @@ button:hover {
 .loseCase.show-modal{
     display: flex;
 }
+
+
+.friends-status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    max-height: 200px; 
+    overflow-y: auto;
+}
+
+.friend-status-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+
+    cursor: default; 
+}
+
+.friend-status-item:last-child {
+    border-bottom: none;
+}
+
+.profile-and-name {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.friend-profile-picture {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.friend-name {
+    font-weight: 500;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.stamp-container {
+    position: relative;
+    width: 60px; /* Space for the stamp */
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-stamp {
+    position: absolute;
+    width: 100%;
+    max-width: 60px;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease-in-out;
+}
+
+.friend-status-item:hover .status-stamp {
+    opacity: 1; /* Show on hover */
+}
+
+
+/* Inside .modal-content */
+#show-punishment-results {
+    text-align: left; /* Align text better than center */
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.punishment-entry {
+    
+    border: none;
+    padding: 0; 
+    margin-bottom: 10px; 
+    background-color: transparent;
+    transition: none;
+}
+
+.punishment-entry:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.punishment-entry h3 {
+    font-size: 1.2em;
+    margin: 0 0 5px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed var(--secondary-color);
+}
+
+.punishment-details {
+    margin: 0;
+    font-size: 0.95em;
+    line-height: 1.4;
+    color: #555;
+}
+
+.pass-status {
+    color: var(--budget-color); /* Green */
+    font-weight: bold;
+}
+
+.fail-status {
+    color: var(--error-color); /* Red */
+    font-weight: bold;
+}
