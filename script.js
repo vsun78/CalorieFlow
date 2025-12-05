@@ -35,6 +35,34 @@ const consumedGauge = outputSection.querySelector('.circle-gauge.consumed');
 const budgetGauge = outputSection.querySelector('.circle-gauge.budget');
 const remainingGauge = outputSection.querySelector('.circle-gauge.remaining');
 
+async function displayUsername() {
+    const welcomeHeader = document.getElementById('welcome-message');
+    const userEmail = localStorage.getItem('userEmail');
+
+    const backendUrl = "http://localhost:8080/api/users/get";
+    const params = new URLSearchParams({ email: userEmail });
+    const fullUrl = `${backendUrl}?${params.toString()}`;
+
+    try {
+        const response = await fetch(fullUrl, { method: 'GET' });
+        if (response.ok) {
+            const userData = await response.json();
+            const username = userData.username;
+
+            const escapedUsername = htmlEscape(username);
+            
+            // Update the header element
+            welcomeHeader.textContent = `Welcome, ${escapedUsername}!`;
+        } else {
+            console.error("Failed to fetch user data for welcome message.");
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', displayUsername);
+
 
 // input sanitization
 function htmlEscape(str) {
