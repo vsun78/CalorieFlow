@@ -7,6 +7,18 @@ const punishmentForm = document.getElementById("create-punishment-form");
 const punishmentDisplay = document.getElementById("punishment-group");
 const assignPunishmentUrl = "http://localhost:8080/api/punishments/assign";
 
+function htmlEscape(str) {
+    if (typeof str !== 'string') {
+        return str;
+    }
+    return str.replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;');
+}
+
+
 fetch(fullUrl, {method: `GET`})
 .then(response =>{
     if(response.ok)
@@ -26,7 +38,7 @@ fetch(fullUrl, {method: `GET`})
     punishmentForm.addEventListener('submit', handlePunishmentSubmission);
 })
 .catch(error =>{
-    alert(error.message);
+    alert(htmlEscape(error.message));
 });
 
 function renderPunishmentPage(membersList)
@@ -39,9 +51,11 @@ function renderPunishmentPage(membersList)
             const inputId = `punishment-input-${count}`;
             count++;
 
+            const escapedUsername = htmlEscape(member.username);
+
             inputHTML += `
             <section class = "person-section">
-                <label for="${inputId}">Enter a punishment for ${member.username}</label>
+                <label for="${inputId}">Enter a punishment for ${escapedUsername}</label>
                 <input type="text" id="${inputId}" data-target-email ="${member.email}" required>
             </section>`;
         }
@@ -77,7 +91,7 @@ async function handlePunishmentSubmission(e)
             window.location.href="home.html";
         }
         catch(error){
-            alert(`Error during assignment: ${error.message}`);
+            alert(`Error during assignment: ${htmlEscape(error.message)}`);
         }
 
 }

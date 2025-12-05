@@ -26,7 +26,7 @@ const params = new URLSearchParams({groupID: groupID});
 const fullUrl = `${backendUrl}?${params.toString()}`;
 
 let survive = false;
-let allMembersData = null; // New global variable to store member data
+let allMembersData = null;
 
 const backendUrlP = "http://localhost:8080/api/punishments/retreive";
 
@@ -35,6 +35,18 @@ const consumedGauge = outputSection.querySelector('.circle-gauge.consumed');
 const budgetGauge = outputSection.querySelector('.circle-gauge.budget');
 const remainingGauge = outputSection.querySelector('.circle-gauge.remaining');
 
+
+// input sanitization
+function htmlEscape(str) {
+    if (typeof str !== 'string') {
+        return str;
+    }
+    return str.replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;');
+}
 
 //functions
 
@@ -402,11 +414,13 @@ function renderFriendsStatus(membersList, currentUserEmail) {
         const statusText = hasPassed ? 'Passed' : (member.underBudget === false ? 'Failed' : 'Status Pending');
         const stampImage = hasPassed ? 'images/passStamp.jpg' : 'images/failStamp.jpg';
         
+        const escapedUsername = htmlEscape(member.username);
+
         friendsHTML += `
             <div class="friend-status-item">
                 <div class="profile-and-name">
                     <img src="images/profile-icon.png" alt="Profile Picture" class="friend-profile-picture" />
-                    <p class="friend-name">${member.username}</p>
+                    <p class="friend-name">${escapedUsername}</p>
                 </div>
                 <div class="stamp-container">
                     <img src="${stampImage}" alt="${statusText} Stamp" class="status-stamp" />
@@ -454,13 +468,17 @@ async function displayPunishmentList(membersList)
 
     results.forEach(result => {
         const statusClass = result.metGoal ? 'pass-status' : 'fail-status';
+
+        const escapedUsername = htmlEscape(result.username);
+        const escapedDetails = htmlEscape(result.details);   
+
         const punishmentMessage = result.metGoal 
             ? `<span class="${statusClass}">Met Goal! No punishment assigned.</span>` 
-            : `<span class="${statusClass}">Punishment:</span> ${result.details}`;
+            : `<span class="${statusClass}">Punishment:</span> ${escapedDetails}`;
 
         punishmentListHTML += `
             <div class="punishment-entry">
-                <h3>${result.username}</h3>
+                <h3>${escapedUsername}</h3>
                 <p class="punishment-details">${punishmentMessage}</p>
             </div>
         `;

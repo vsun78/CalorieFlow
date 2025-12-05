@@ -9,6 +9,17 @@ const emailLoginInput = document.getElementById("emailLoginInput");
 const passwordLoginInput = document.getElementById("passwordLoginInput");
 const loginForm = document.getElementById("login-form");
 
+function htmlEscape(str) {
+    if (typeof str !== 'string') {
+        return str;
+    }
+    return str.replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;');
+}
+
 // functions
 if(signupForm){ // if because if on login form, then signupForm DNE
     signupForm.addEventListener("submit",(e) => {
@@ -66,8 +77,8 @@ function registerUser(email, username, password)
 
     })
     .catch(error =>{
-        console.error("Error during registration:", error);
-        alert(error.message || "Could not connect to the server");
+        console.error("Error during registration:", htmlEscape(error.message));
+        alert(htmlEscape(error.message) || "Could not connect to the server");
     });
 }
 
@@ -124,7 +135,7 @@ function loginUser(email, password)
          }
     })
     .catch(error =>{
-        console.error("Error during login:", error);
-        alert(error.message || "Could not connect to the server");
+        console.error("Error during login:", htmlEscape(error.message));
+        alert(htmlEscape(error.message) || "Could not connect to the server");
     });
 }

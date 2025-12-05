@@ -9,6 +9,18 @@ const newMembers = []; // array to hold new members added
 const moreMembers = document.getElementById("more-members");
 let memberCount = 0; // to increment id
 
+function htmlEscape(str) {
+    if (typeof str !== 'string') {
+        return str;
+    }
+    return str.replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;');
+}
+
+
 // functions
 groupButton.addEventListener("click",(e)=>{
     e.preventDefault();
@@ -51,7 +63,7 @@ function makeGroup(email, groupName)
     })
     .catch(error=>{
         console.error("Error during group creation:", error);
-        alert(error.message);
+        alert(htmlEscape(error.message));
     });
 }
 
@@ -71,7 +83,7 @@ addPersonButton.addEventListener("click",(e)=>{
         }
         catch(error)
         {
-            alert(error.message);
+            alert(htmlEscape(error.message));
         }
     } else {
         alert("Error: Input field not found.");
@@ -148,7 +160,7 @@ function addPerson(email)
 
     })
     .catch(error =>{
-        alert(error.message);
+        alert(htmlEscape(error.message));
     })
 
     
