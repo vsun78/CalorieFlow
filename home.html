@@ -8,78 +8,96 @@
 </head>
 
 <body>
+    <a href="settings.html" id="logo-link">
+                <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
+            </a>
+            
     <main>
+        <header id="app-header">
+            
+            <h1>Welcome, user!</h1>
+        </header>
 
-        <a href="settings.html" id="logo-link">
-        <img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture" />
-        </a>
+        <div id="output" class="calorie-overview">
+            <div class="circle-gauge-wrapper">
+                <div class="circle-gauge consumed" data-value="0">
+                    <span class="gauge-value">0</span>
+                    <span class="gauge-unit">kcal</span>
+                </div>
+                <p class="gauge-label">Consumed</p>
+            </div>
+            
+            <div class="circle-gauge-wrapper">
+                <div class="circle-gauge budget" data-value="0">
+                    <span class="gauge-value">0</span>
+                    <span class="gauge-unit">kcal</span>
+                </div>
+                <p class="gauge-label">Budget</p>
+            </div>
 
-        <h1>Welcome, user!</h1>
+            <div class="circle-gauge-wrapper">
+                <div class="circle-gauge remaining" data-value="0">
+                    <span class="gauge-value">0</span>
+                    <span class="gauge-unit">kcal</span>
+                </div>
+                <p class="gauge-label">Remaining</p>
+            </div>
+        </div>
         
-        <!-- div that contains all the content -->
         <div class = "container">
             <form id="calorie-form">
                 <fieldset id="budget">
-                    <!-- label for accessibility and best practice -->
-                    <label for ="budgetInput">Budget</label>
+                    <label for ="budgetInput">Daily Caloric Budget</label>
                     <input type="number" placeholder="What's your caloric budget?" min = "0" id="budgetInput" required/>
                 </fieldset>
 
-                <fieldset id="fs-breakfast">
+                <fieldset id="fs-breakfast" class="entry-group">
                     <legend>Breakfast</legend>
-                    <section id = "breakfast"></section> <!-- show results here later -->
-                </fieldset>
+                    <section id = "breakfast"></section> </fieldset>
 
-                <fieldset id="fs-lunch">
+                <fieldset id="fs-lunch" class="entry-group">
                     <legend>Lunch</legend>
                     <section id = "lunch"></section> 
                 </fieldset>
 
-                <fieldset id="fs-dinner">
+                <fieldset id="fs-dinner" class="entry-group">
                     <legend>Dinner</legend>
                     <section id = "dinner"></section> 
                 </fieldset>
 
-                <fieldset id="fs-snacks">
+                <fieldset id="fs-snacks" class="entry-group">
                     <legend>Snacks</legend>
                     <section id = "snacks"></section> 
                 </fieldset>
 
-                <fieldset id="fs-exercise">
+                <fieldset id="fs-exercise" class="entry-group">
                     <legend>Exercise</legend>
                     <section id = "exercise"></section>
                 </fieldset>
 
                 <section class = "entry-section">
                     <label for="entry-dropdown">Add food or exercise:</label>
-                    <select id = "selectList">
-                        <option value="breakfast">Breakfast</option>
-                        <option value="lunch">Lunch</option>
-                        <option value="dinner">Dinner</option>
-                        <option value="snacks">Snacks</option>
-                        <option value="exercise">Exercise</option>
-                    </select>
-                    <br>
-                    <button type="button" id="entry-button">Add entry</button>
-                
+                    <div class="input-row">
+                        <select id = "selectList">
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="snacks">Snacks</option>
+                            <option value="exercise">Exercise</option>
+                        </select>
+                        <button type="button" id="entry-button">Add entry</button>
+                    </div>
                 </section>
                 
                 <section class="form-actions">
                     <button type="submit" id="calculate-button">Calculate remaining calories</button>
-                    <button type="button" id="clear-button">Clear entries</button>
+                    <button type="button" id="clear-button" class="secondary-button">Clear entries</button>
                 </section>
-
-
             </form>
-        </div>
-
-        <div id="output">
         </div>
 
         <button type = "button" id = "simulate-button">Simulate the end of the day</button>
         
-        <!-- popups that shows daily results, did everyone meet them?-->
-
         <div class ="dailyResults">
             <div class="modal-content"> 
                 <h2>Daily Results</h2>

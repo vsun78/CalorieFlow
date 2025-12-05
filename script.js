@@ -4,7 +4,7 @@ const selectList = document.getElementById("selectList");
 const entryButton = document.getElementById("entry-button");
 const calculateButton = document.getElementById("calculate-button");
 const clearButton = document.getElementById("clear-button");
-const outputSection = document.getElementById("output");
+const outputSection = document.getElementById("output"); // This is now the gauge container
 let remainingCalories;
 const simulateButton = document.getElementById("simulate-button");
 const dailyResultsModal = document.querySelector('.dailyResults');
@@ -29,6 +29,10 @@ let survive = false;
 
 const backendUrlP = "http://localhost:8080/api/punishments/retreive";
 
+
+const consumedGauge = outputSection.querySelector('.circle-gauge.consumed');
+const budgetGauge = outputSection.querySelector('.circle-gauge.budget');
+const remainingGauge = outputSection.querySelector('.circle-gauge.remaining');
 
 
 //functions
@@ -68,16 +72,21 @@ function calculateCalories(e){
     const snacksTotalCalories = getCalories(snacksNumberInputs);
     const exerciseTotalCalories = getCalories(exerciseNumberInputs);
 
+    const dailyBudget = Number(budget.value);
+    const totalConsumed = breakfastTotalCalories + lunchTotalCalories + dinnerTotalCalories + snacksTotalCalories;
+    const totalExpenditure = exerciseTotalCalories;
+
+
     if(isValidInput(budget.value))
     {   
         alert("Enter a valid budget please!")
         return;
     }
     // remaining calories calculation
-    remainingCalories = Number(budget.value) + exerciseTotalCalories - breakfastTotalCalories - 
-    lunchTotalCalories - dinnerTotalCalories - snacksTotalCalories;
+    remainingCalories = dailyBudget + totalExpenditure - totalConsumed;
 
-    output(remainingCalories);
+    // Update the visual gauges
+    updateCalorieGauges(dailyBudget, totalConsumed, remainingCalories);
 
 }
 
@@ -103,25 +112,55 @@ function getCalories(listOfInputs)
     return result;
 }
 
+//  update the circular gauges
+function updateCalorieGauges(dailyBudget, totalConsumed, remainingCalories) {
+        
+    if (!consumedGauge || !budgetGauge || !remainingGauge) return;
 
-// output function for the output at the bottom of the page
-function output(calRemaining)
-{   
-    outputSection.innerHTML = ``; // reset so output doesnt stack
+    // The goal is the daily budget. Use 1 to avoid division by zero if budget is 0.
+    const totalGoal = dailyBudget > 0 ? dailyBudget : 1; 
 
-    if(calRemaining >= 0)
-    {
-        outputSection.innerHTML += `<fieldset id="fs-remaining">
-        <h2>${calRemaining} calories remaining </h2>
-        </fieldset>`;
+    // Update Consumed Gauge
+    const consumedValueEl = consumedGauge.querySelector('.gauge-value');
+    let consumedPercentage = Math.min(100, (totalConsumed / totalGoal) * 100);
+    let consumedColor = consumedPercentage > 100 ? '#ef4444' : '#f39c12'; // Red if over 100%
+
+    consumedValueEl.textContent = totalConsumed;
+    consumedGauge.style.background = `conic-gradient(
+        ${consumedColor} 0% ${consumedPercentage}%, 
+        #e9ecef ${consumedPercentage}% 360deg
+    )`;
+    consumedGauge.style.color = consumedColor;
+    
+
+    // Update Budget Gauge
+    const budgetValueEl = budgetGauge.querySelector('.gauge-value');
+    budgetValueEl.textContent = dailyBudget;
+
+    // Update Remaining Gauge
+    const remainingValueEl = remainingGauge.querySelector('.gauge-value');
+    let remainingPercentage;
+    let remainingColor;
+
+    if (remainingCalories >= 0) {
+        // Remaining progress based on how much is left
+        remainingPercentage = Math.min(100, (remainingCalories / totalGoal) * 100);
+        remainingColor = '#3498db'; // Blue for on/under budget
+    } else {
+        // Negative remaining calories. Fill the circle completely and show red.
+        remainingPercentage = 100; 
+        remainingColor = '#e74c3c'; // Red for over budget
     }
-    else{
-        outputSection.innerHTML += `<fieldset id="fs-excess">
-        <h2>${calRemaining} calories in excess</h2>
-        </fieldset>`;
-    }
+
+    remainingValueEl.textContent = remainingCalories;
+    remainingGauge.style.background = `conic-gradient(
+        ${remainingColor} 0% ${remainingPercentage}%, 
+        #e9ecef ${remainingPercentage}% 360deg
+    )`;
+    remainingGauge.style.color = remainingColor;
     
 }
+
 
 // clear button function (reset button doesnt clear entries)
 clearButton.addEventListener("click", clearAll);
@@ -142,7 +181,11 @@ function clearAll()
         }
     }
 
-    outputSection.innerHTML = "";
+    // Reset the gauge display
+    const initialBudget = 0;
+    remainingCalories = 0; // Reset global remaining calories
+    updateCalorieGauges(initialBudget, 0, initialBudget);
+
     
 }
 
@@ -417,5 +460,3 @@ async function updateUserStatus(email, underBudget)
         alert(`Error communicating with server to save status: ${error.message}`); 
     }
 }
-
-
