@@ -238,6 +238,29 @@ async function handleModalButtonAction(){
                     punishmentListModal.classList.toggle('show-modal');
                     showPunishmentResults.innerHTML = await displayPunishmentList(data);
 
+                    // update days (update b4 get)
+                    const updateDaysSurvivedUrl = "http://localhost:8080/api/groups/updateDays";
+                    const updateDaysParam = new URLSearchParams({groupID: groupID});
+                    const updateDaysFullUrl = `${updateDaysSurvivedUrl}?${updateDaysParam.toString()}`;
+
+                    try{
+                        const updateDaysResponse = await fetch(updateDaysFullUrl,{method: `PUT`});
+                        if(updateDaysResponse.ok)
+                        {
+                            const updateDaysData = await updateDaysResponse.json();
+                            
+                            // update method?
+                        }
+                        else{
+                            const errorData = await updateDaysResponse.json();
+                            console.error("Error fetching days survived:", errorData.message);
+                        }
+                    }
+                    catch(error){
+                        console.log("Error: ", error.message);
+                    }
+
+
                     // check if group earned an accolade with days survived
                     const daysSurvivedUrl = "http://localhost:8080/api/groups/getDays";
                     const daysParam = new URLSearchParams({groupID: groupID});
@@ -261,7 +284,6 @@ async function handleModalButtonAction(){
                         console.log("Error: ", error.message);
                     }
 
-                    // update days
                     
                 }
                 else{
