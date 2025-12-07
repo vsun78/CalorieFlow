@@ -2,11 +2,13 @@ package com.calorieflow.backend;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
 // entity tells the class that this class is the entity to the DB and Id defines the PK
 @Entity
+@Table(name = "app_user")
 public class User {
     @Id
     private String email;
