@@ -20,8 +20,8 @@ function deleteUser(email)
     const userData= {
         email: email
     }
-
-    const backendUrl = "http://localhost:8080/api/users/delete";
+    
+    const backendUrl = "https://calorieflow-production.up.railway.app/api/users/delete";
     const params = new URLSearchParams(userData);
     const fullUrl = `${backendUrl}?${params.toString()}`;
 

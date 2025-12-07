@@ -41,7 +41,7 @@ function registerUser(email, username, password)
     // make the HTTP POST Request with fetch
 
     
-    const backendUrl = "http://localhost:8080/api/users/register";
+    const backendUrl = "https://calorieflow-production.up.railway.app/api/users/register";
     // since the backend uses @RequestParam, Spring Boot looks for the values of email, username, etc in the URL query string, not in the request body
     const params = new URLSearchParams(userData); // transform the JS object into a URL query string
     const fullUrl = `${backendUrl}?${params.toString()}`;
@@ -101,7 +101,7 @@ function loginUser(email, password)
 
     // make the HTTP POST request using fetch
     
-    const backendUrl = "http://localhost:8080/api/users/login";
+    const backendUrl = "https://calorieflow-production.up.railway.app/api/users/login";
     const params = new URLSearchParams(userData);
     const fullUrl = `${backendUrl}?${params.toString()}`;
 

@@ -28,7 +28,7 @@ const fullUrl = `${backendUrl}?${params.toString()}`;
 let survive = false;
 let allMembersData = null;
 
-const backendUrlP = "http://localhost:8080/api/punishments/retreive";
+const backendUrlP = "https://calorieflow-production.up.railway.app/api/punishments/retreive";
 
 
 const consumedGauge = outputSection.querySelector('.circle-gauge.consumed');
@@ -39,7 +39,7 @@ async function displayUsername() {
     const welcomeHeader = document.getElementById('welcome-message');
     const userEmail = localStorage.getItem('userEmail');
 
-    const backendUrl = "http://localhost:8080/api/users/get";
+    const backendUrl = "https://calorieflow-production.up.railway.app/api/users/get";
     const params = new URLSearchParams({ email: userEmail });
     const fullUrl = `${backendUrl}?${params.toString()}`;
 
@@ -347,7 +347,7 @@ async function handleModalButtonAction(){
 
 
             // check if group earned an accolade with days survived
-            const daysSurvivedUrl = "http://localhost:8080/api/groups/getDays";
+            const daysSurvivedUrl = "https://calorieflow-production.up.railway.app/api/groups/getDays";
             const daysParam = new URLSearchParams({groupID: groupID});
             const daysFullUrl = `${daysSurvivedUrl}?${daysParam.toString()}`;
 
@@ -519,7 +519,7 @@ async function displayPunishmentList(membersList)
 
 async function updateUserStatus(email, underBudget)
 {
-    const backendUrl = "http://localhost:8080/api/users/updateStatus";
+    const backendUrl = "https://calorieflow-production.up.railway.app/api/users/updateStatus";
     const params = new URLSearchParams({
         email: email,
         underBudget: underBudget
