@@ -21,7 +21,7 @@ const closeAndRestart = document.getElementById("go-restart");
 const userEmail = localStorage.getItem('userEmail');
 const groupID = localStorage.getItem('currentGroupId');
 
-const backendUrl = "http://localhost:8080/api/groups/get";
+const backendUrl = "https://calorieflow-production.up.railway.app/api/groups/get";
 const params = new URLSearchParams({groupID: groupID});
 const fullUrl = `${backendUrl}?${params.toString()}`;
 
@@ -324,7 +324,7 @@ async function handleModalButtonAction(){
             showPunishmentResults.innerHTML = await displayPunishmentList(data);
 
             // update days (update b4 get)
-            const updateDaysSurvivedUrl = "http://localhost:8080/api/groups/updateDays";
+            const updateDaysSurvivedUrl = "https://calorieflow-production.up.railway.app/api/groups/updateDays";
             const updateDaysParam = new URLSearchParams({groupID: groupID});
             const updateDaysFullUrl = `${updateDaysSurvivedUrl}?${updateDaysParam.toString()}`;
 
