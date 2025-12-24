@@ -21,12 +21,6 @@ public class PunishmentService {
 
     public Punishment assignPunishment(String assignerEmail, String targetEmail, String details)
     {
-        if(punishmentRepository.findByAssignerEmail(assignerEmail).isPresent())
-        {
-            throw new IllegalStateException("You have already assigned one punishment");
-
-        }
-
         Punishment punishment = new Punishment(assignerEmail, targetEmail, details);
         return punishmentRepository.save(punishment);
     }

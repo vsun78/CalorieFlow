@@ -31,7 +31,7 @@ function makeGroup(email, groupName)
 {
     const allMemberEmails = [email, ...newMembers];
 
-    const backendUrl = "https://calorieflow-production.up.railway.app/api/groups/create";
+    const backendUrl = "http://localhost:8080/api/groups/create";
     const params = new URLSearchParams();
     params.append('groupName', groupName);
     allMemberEmails.forEach(memberEmail =>{
@@ -106,7 +106,7 @@ function addPerson(email)
         throw new Error("You are already in the group!");
     }
 
-    const backendUrl = "https://calorieflow-production.up.railway.app/api/users/get";
+    const backendUrl = "http://localhost:8080/api/users/get";
     const params = new URLSearchParams({email: email});
     const fullUrl = `${backendUrl}?${params.toString()}`;
 

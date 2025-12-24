@@ -3,6 +3,7 @@
 const usernameButton = document.getElementById("usernameButton");
 const passwordButton = document.getElementById("passwordButton");
 const deleteButton = document.getElementById("deleteButton");
+const logoutButton = document.getElementById("logoutButton");
 const userEmail = localStorage.getItem('userEmail');
 
 const bannerContainer = document.getElementById('bannerContainer');
@@ -174,6 +175,14 @@ passwordButton.addEventListener("click", async (e) => {
 deleteButton.addEventListener("click", (e) =>{
     e.preventDefault();
     deleteUser(userEmail)});
+
+logoutButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('currentGroupId');
+    localStorage.removeItem('achievementsList');
+    window.location.href = "login.html";
+});
 
 function deleteUser(email)
 {   

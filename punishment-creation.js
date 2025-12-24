@@ -1,11 +1,11 @@
 const groupID = localStorage.getItem('currentGroupId');
 const currentUserEmail = localStorage.getItem('userEmail');
-const backendUrl = "https://calorieflow-production.up.railway.app/api/groups/get";
+const backendUrl = "http://localhost:8080/api/groups/get";
 const params = new URLSearchParams({groupID: groupID});
 const fullUrl = `${backendUrl}?${params.toString()}`;
 const punishmentForm = document.getElementById("create-punishment-form");
 const punishmentDisplay = document.getElementById("punishment-group");
-const assignPunishmentUrl = "https://calorieflow-production.up.railway.app/api/punishments/assign";
+const assignPunishmentUrl = "http://localhost:8080/api/punishments/assign";
 
 function htmlEscape(str) {
     if (typeof str !== 'string') {
@@ -46,19 +46,19 @@ function renderPunishmentPage(membersList)
     let count = 1;
     let inputHTML = '';
     membersList.forEach(member =>{
-        if(member.email !== currentUserEmail)
-        {
-            const inputId = `punishment-input-${count}`;
-            count++;
+        const inputId = `punishment-input-${count}`;
+        count++;
 
-            const escapedUsername = htmlEscape(member.username);
+        const escapedUsername = htmlEscape(member.username);
+        const labelText = member.email === currentUserEmail 
+            ? `Enter a punishment for yourself (${escapedUsername})` 
+            : `Enter a punishment for ${escapedUsername}`;
 
-            inputHTML += `
-            <section class = "person-section">
-                <label for="${inputId}">Enter a punishment for ${escapedUsername}</label>
-                <input type="text" id="${inputId}" data-target-email ="${member.email}" required>
-            </section>`;
-        }
+        inputHTML += `
+        <section class = "person-section">
+            <label for="${inputId}">${labelText}</label>
+            <input type="text" id="${inputId}" data-target-email ="${member.email}" required>
+        </section>`;
     })
 
     punishmentDisplay.innerHTML = `
