@@ -255,24 +255,32 @@ async function showDailyResults()
     
     let friendsStatusHTML = 'Could not load friends status.';
     
-    try {
-        const response = await fetch(fullUrl, { method: `GET` });
-        if (response.ok) {
-            allMembersData = await response.json(); // Set global data
+    const currentGroupID = localStorage.getItem('currentGroupId');
+    
+    if (!currentGroupID) {
+        friendsStatusHTML = `<p style="color:red;">Error: You are not in a group. Please create or join a group first.</p>`;
+    } else {
+        try {
+            const backendUrl = "https://calorieflow-production.up.railway.app/api/groups/get";
+            const params = new URLSearchParams({groupID: currentGroupID});
+            const groupUrl = `${backendUrl}?${params.toString()}`;
             
-            // Set survival status
-            checkSurvival(allMembersData); 
-            
-            // Render the friends status
-            friendsStatusHTML = renderFriendsStatus(allMembersData, userEmail);
-            
-        } else {
-            const errorData = await response.json();
-            throw new Error(errorData.message);
+            const response = await fetch(groupUrl, { method: `GET` });
+            if (response.ok) {
+                allMembersData = await response.json();
+                
+                checkSurvival(allMembersData); 
+                
+                friendsStatusHTML = renderFriendsStatus(allMembersData, userEmail);
+                
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.message);
+            }
+        } catch (error) {
+            console.error("Error fetching group data for results:", error.message);
+            friendsStatusHTML = `<p style="color:red;">Error fetching group data: ${error.message}</p>`;
         }
-    } catch (error) {
-        console.error("Error fetching group data for results:", error.message);
-        friendsStatusHTML = `<p style="color:red;">Error fetching group data: ${error.message}</p>`;
     }
 
     // 3. Populate modal content
