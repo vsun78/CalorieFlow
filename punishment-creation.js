@@ -1,11 +1,11 @@
 const groupID = localStorage.getItem('currentGroupId');
 const currentUserEmail = localStorage.getItem('userEmail');
-const backendUrl = "http://localhost:8080/api/groups/get";
+const backendUrl = "https://calorieflow-production.up.railway.app/api/groups/get";
 const params = new URLSearchParams({groupID: groupID});
 const fullUrl = `${backendUrl}?${params.toString()}`;
 const punishmentForm = document.getElementById("create-punishment-form");
 const punishmentDisplay = document.getElementById("punishment-group");
-const assignPunishmentUrl = "http://localhost:8080/api/punishments/assign";
+const assignPunishmentUrl = "https://calorieflow-production.up.railway.app/api/punishments/assign";
 
 function htmlEscape(str) {
     if (typeof str !== 'string') {
