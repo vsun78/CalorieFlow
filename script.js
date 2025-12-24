@@ -247,9 +247,11 @@ simulateButton.addEventListener("click", showDailyResults);
 
 async function showDailyResults()
 {   
+    // 1. Update current user's status first (MUST be done before fetching the list)
     const currentUserPassed = remainingCalories >= 0;
-    await updateUserStatus(userEmail, currentUserPassed);
+    updateUserStatus(userEmail, currentUserPassed);
     
+    // 2. Fetch all group members
     showResults.innerHTML = '<p>Loading group results...</p>';
     dailyResultsModal.classList.add('show-modal');
     
@@ -412,10 +414,6 @@ function metDaysRequirements(numDays)
 }
 
 closePunishmentResults.addEventListener("click", () =>{punishmentListModal.classList.toggle('show-modal');});
-
-closeAndRestart.addEventListener("click", () => {
-    window.location.href = "login.html";
-});
 
 function checkSurvival(membersList)
 {
