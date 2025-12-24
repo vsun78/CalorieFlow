@@ -54,8 +54,10 @@ public class GroupController {
         return groupService.getDays(groupID);
     }
 
-
-
+    @GetMapping("/getGroup")
+    public String getGroup(@RequestParam Long groupID){
+        return groupService.getGroupName(groupID);
+    }
 
 }
 

@@ -115,4 +115,11 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
+    public String getGroupName(Long groupID)
+    {
+        Group group = groupRepository.findById(groupID)
+                .orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        return group.getName();
+    }
+
 }
