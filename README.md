@@ -4,6 +4,47 @@ A web-based accountability system for friends to track their daily caloric goals
 
 **Live Application:** https://caloriekarma.netlify.app
 
+## Application Gallery
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="images/login-page.png" alt="Login Page" width="400"/>
+      <br/>
+      <b>Login Page</b>
+    </td>
+    <td align="center">
+      <img src="images/home-page.png" alt="Home Page" width="400"/>
+      <br/>
+      <b>Main Homepage</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="images/settings-page.png" alt="Settings Page" width="400"/>
+      <br/>
+      <b>Settings Page</b>
+    </td>
+    <td align="center">
+      <img src="images/group-creation.png" alt="Group Creation" width="400"/>
+      <br/>
+      <b>Group Creation</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="images/daily-results.png" alt="Daily Results" width="400"/>
+      <br/>
+      <b>Daily Results</b>
+    </td>
+    <td align="center">
+      <img src="images/punishment-list.png" alt="Punishment List" width="400"/>
+      <br/>
+      <b>Punishment List</b>
+    </td>
+  </tr>
+</table>
+
 ## Overview
 
 Calorie Karma enables friends to hold each other accountable through a group-based challenge system. When creating a group, the group leader assigns punishments for all members (including themselves), which are agreed upon collectively. These punishments can be physical activities like 50 pushups or a 2km run.
