@@ -1,6 +1,6 @@
 # Calorie Karma
 
-A web-based accountability system for friends to track their daily caloric goals together. Users form groups where they set mutual punishments for failing to meet their goals, creating a supportive and motivating environment for achieving health objectives.
+A web-based buddy accountability system for friends to track their daily caloric goals together. Users form groups where they set punishments for failing to meet their goals, creating a supportive and motivating environment for achieving health objectives.
 
 **Live Application:** https://caloriekarma.netlify.app
 
@@ -9,36 +9,36 @@ A web-based accountability system for friends to track their daily caloric goals
 <table>
   <tr>
     <td align="center">
-      <img src="images/login-page.png" alt="Login Page" width="400"/>
+      <img width="600" alt="LoginScreen" src="https://github.com/user-attachments/assets/0f66ec9e-ca98-45d9-ad87-ee721d619889" />
       <br/>
       <b>Login Page</b>
     </td>
     <td align="center">
-      <img src="images/home-page.png" alt="Home Page" width="400"/>
+      <img width="600" alt="MainPage" src="https://github.com/user-attachments/assets/18219708-28d9-401f-8bfa-9ec2efd5523f" />
       <br/>
       <b>Main Homepage</b>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="images/settings-page.png" alt="Settings Page" width="400"/>
+      <img width="600" alt="SettingScreen" src="https://github.com/user-attachments/assets/5266ea55-ec81-4704-bd5b-1e2520b70d01" />
       <br/>
       <b>Settings Page</b>
     </td>
     <td align="center">
-      <img src="images/group-creation.png" alt="Group Creation" width="400"/>
+      <img width="600" alt="Group Creation Screen" src="https://github.com/user-attachments/assets/4636b4b8-a903-4eff-9273-f9af2579c54d" />
       <br/>
       <b>Group Creation</b>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="images/daily-results.png" alt="Daily Results" width="400"/>
+      <img width="600" alt="FailPassScreen" src="https://github.com/user-attachments/assets/d69d35ab-9c00-4b2a-a27d-47c340e594c6" />
       <br/>
       <b>Daily Results</b>
     </td>
     <td align="center">
-      <img src="images/punishment-list.png" alt="Punishment List" width="400"/>
+      <img width="600" alt="PunishmentList" src="https://github.com/user-attachments/assets/b55a30fc-dd9a-4f7d-b1b7-1f2bf9590bdd" />
       <br/>
       <b>Punishment List</b>
     </td>
@@ -131,31 +131,6 @@ At the end of each day, the application tracks whether users met their set calor
 7. **View Punishments**: See which punishments apply if goals weren't met
 8. **Earn Achievements**: Collect badges as your group survives together
 
-## Project Structure
-
-```
-CalorieFlow/
-├── src/main/java/com/calorieflow/backend/
-│   ├── controller/          # REST API controllers
-│   ├── service/             # Business logic layer
-│   ├── repository/          # Database access layer
-│   ├── User.java            # User entity
-│   ├── Group.java           # Group entity
-│   └── Punishment.java      # Punishment entity
-├── home.html                # Main calorie tracking page
-├── login.html               # Login page
-├── signup.html              # Registration page
-├── settings.html            # Account settings page
-├── group-onboarding.html    # Group creation page
-├── punishment-creation.html # Punishment assignment page
-├── script.js                # Main application logic
-├── loginJS.js               # Authentication logic
-├── group.js                 # Group creation logic
-├── punishment-creation.js   # Punishment assignment logic
-├── settings.js              # Settings page logic
-└── style.css                # Main stylesheet
-```
-
 ## Database Schema
 
 ### Users Table
@@ -187,11 +162,3 @@ Rather than implementing automatic end-of-day calculations, a "Simulate the end 
 
 ### Punishment System
 Each group member assigns one punishment per target user. When a user fails to meet their goal, the system randomly selects from all punishments assigned to them, ensuring variety and fairness.
-
-## Authors
-
-This project was developed as a collaborative accountability system for caloric goal tracking.
-
-## License
-
-This project is available for educational and personal use.
